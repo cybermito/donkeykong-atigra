@@ -54,6 +54,16 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "OIL"
     },
+    "image9": {
+        "data": "hwQQAA8AAAAAAAAAACICAAAAAAUiIiIAAFAAIEJEJAIAAAAiRBFEAgAAIiUUIkECACAiQhQRQQQAIlBCERFBBCAAIEQRIkEEAAUiRBQRRAQAICJCREREAgAiACJCRCQCAgAgIiIiIgAAAgIAICICAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Fueguito"
+    },
+    "image10": {
+        "data": "hwQPABYAAAAAAAAAAAAAEwAAAAAAQAAEBAAAMwEEAAAAQAREAAAAMTNEAAAAAEREBAAwETNEBAAAAEBEAAAwEzMDBAAAAEBEAAAzEzEBAAAAREAzMwAzMzETAABAREQzMwMzMxETAABE1NQ9MwMzMxMzAQBERN3dMwMzMxMxQQBE3d3dMzMzMzMxAQBE3d0wAzMzMzMxQQBE/d0AADMQMzMxQQBE3Q0AAN0QAQAAQABA0AAAAA0AAAAAAAA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Peach"
+    },
     "anim1": {
         "namespace": "myAnimations",
         "id": "anim1",
