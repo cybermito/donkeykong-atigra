@@ -3,13 +3,10 @@ namespace SpriteKind {
     export const barril = SpriteKind.create()
     export const oil = SpriteKind.create()
 }
-/**
- * La posición del contendedor de Oil ponerla en 20 360.
- * 
- * En esta posición se destruyen los barriles.
- */
 let barriletes: Sprite[] = []
 let contador = 0
+let contadorAzul = 0
+let azul = false
 tiles.setTilemap(tilemap`level1`)
 let oil = sprites.create(assets.image`OIL`, SpriteKind.oil)
 oil.setPosition(24, 360)
@@ -19,7 +16,7 @@ let mario = sprites.create(assets.image`mario`, SpriteKind.Player)
 // Posición inicial
 // x = 20
 // y = 360
-mario.setPosition(81, 73)
+mario.setPosition(48, 360)
 mario.ay = 300
 controller.moveSprite(mario, 100, 100)
 let barrilete = sprites.create(assets.image`barrileteJr`, SpriteKind.barril)
@@ -48,39 +45,84 @@ game.onUpdate(function () {
         controller.moveSprite(mario, 100, 0)
     }
 })
+/**
+ * La posición del contendedor de Oil ponerla en 20 360.
+ * 
+ * En esta posición se destruyen los barriles.
+ */
 game.onUpdateInterval(2000, function () {
-    barrilete = sprites.create(assets.image`barrileteJr`, SpriteKind.barril)
-    barrilete.setPosition(50, 73)
-    barriletes.push(barrilete)
-    barriletes[barriletes.length - 1].vx = 60
+    if (contadorAzul >= 10) {
+        contadorAzul = 0
+        barrilete = sprites.create(assets.image`barrileteJr3-Azul`, SpriteKind.barril)
+        barrilete.setPosition(50, 73)
+        barriletes.push(barrilete)
+        barriletes[barriletes.length - 1].vx = 60
+        animation.runImageAnimation(
+        barrilete,
+        assets.animation`BarrileteAlante-azul`,
+        100,
+        true
+        )
+        azul = true
+    } else {
+        barrilete = sprites.create(assets.image`barrileteJr`, SpriteKind.barril)
+        contadorAzul += 1
+        barrilete.setPosition(50, 73)
+        barriletes.push(barrilete)
+        barriletes[barriletes.length - 1].vx = 60
+        animation.runImageAnimation(
+        barrilete,
+        assets.animation`BarrileteAlante`,
+        100,
+        true
+        )
+        azul = false
+    }
 })
 forever(function () {
     contador = barriletes.length - 1
     while (contador >= 0) {
-        mario.sayText(contador)
         if (barriletes[contador].x >= 153) {
             if (!(barriletes[contador].isHittingTile(CollisionDirection.Bottom))) {
                 barriletes[contador].vy = 200
             } else {
                 barriletes[contador].vx = -60
-                animation.runImageAnimation(
-                barriletes[contador],
-                assets.animation`BarrileteAlante`,
-                100,
-                true
-                )
+                if (azul) {
+                    animation.runImageAnimation(
+                    barriletes[contador],
+                    assets.animation`BarrileteAlante-azul`,
+                    100,
+                    true
+                    )
+                } else {
+                    animation.runImageAnimation(
+                    barriletes[contador],
+                    assets.animation`BarrileteAlante`,
+                    100,
+                    true
+                    )
+                }
             }
         } else if (barriletes[contador].x <= 10) {
             if (!(barriletes[contador].isHittingTile(CollisionDirection.Bottom))) {
                 barriletes[contador].vy = 200
             } else {
                 barriletes[contador].vx = 60
-                animation.runImageAnimation(
-                barriletes[contador],
-                assets.animation`BarrileteAlante`,
-                100,
-                true
-                )
+                if (azul) {
+                    animation.runImageAnimation(
+                    barriletes[contador],
+                    assets.animation`BarrileteAtras-azul`,
+                    100,
+                    true
+                    )
+                } else {
+                    animation.runImageAnimation(
+                    barriletes[contador],
+                    assets.animation`BarrileteAtras`,
+                    100,
+                    true
+                    )
+                }
             }
         }
         if (barriletes[contador].x <= 24 && barriletes[contador].y >= 360) {
