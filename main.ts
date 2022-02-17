@@ -160,8 +160,12 @@ forever(function () {
 })
 forever(function () {
     if (fuego) {
-        mario.sayText("Fueegooo!!!!!", 2000, false)
         aleatorio = randint(1, 3)
+    }
+    pause(5000)
+})
+forever(function () {
+    if (fuego) {
         if (aleatorio == 1) {
             if (fuego.x >= 100) {
                 fuego.setVelocity(-40, 0)
@@ -175,9 +179,15 @@ forever(function () {
                 fuego.setVelocity(40, 0)
             }
         } else if (aleatorio == 3) {
-        	
+            if (fuego.x >= 153) {
+                fuego.setVelocity(-40, 0)
+            } else if (fuego.x <= 10) {
+                fuego.setVelocity(40, 0)
+            }
+            if (fuego.tileKindAt(TileDirection.Center, assets.tile`escaleras`)) {
+                fuego.setVelocity(0, -40)
+            }
         }
-        pause(2000)
     }
 })
 forever(function () {
