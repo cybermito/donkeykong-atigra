@@ -69,11 +69,6 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "Fueguito-azul"
     },
-    "image15": {
-        "data": "hwQQAA8AAAAAAAAAACICAAAAAAUiIiIAAFAAIEJEJAIAAAAiRBFEAgAAIiUUIkECACAiQhQRQQQAIlBCERFBBCAAIEQRIkEEAAUiRBQRRAQAICJCREREAgAiACJCRCQCAgAgIiIiIgAAAgIAICICAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Fueguito"
-    },
     "image16": {
         "data": "hwQNAAwAAAAAAEAEAAAAAAAAQAQAAAAAAABAVFAAAAAAAEAEAFAAAAAAQARVAAAAAABABAAFAAAgIiIiIlIAACIiIiIiIgAAIiIiIiIiAAAiIiIiIiIAABIRESIiIQAAICIiIiJSAAAAAEAEAAUAAA==",
         "mimeType": "image/x-mkcd-f4",
@@ -118,6 +113,11 @@
         "data": "hwQNAA0AAAAAkJmZmQAAAACJiIiICQAAkIiIiIiYAACJiIiIiIgJAIkYgYiIgQkAiRiBiIiBCQCJiIiIGIgJAImIiBiBiAkAiYiIgYiICQCJiIiBiIgJAJCIGIiImAAAAImBiIgJAAAAkJmZmQAAAA==",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "barrileteJr3-Azul"
+    },
+    "image15": {
+        "data": "hwQQAA8AAAAAAAAAACICAAAAAAUiIiIAAFAAIEJEJAIAAAAiRBFEAgAAIiUUIkECACAiQhQRQQQAIlBCERFBBCAAIEQRIkEEAAUiRBQRRAQAICJCREREAgAiACJCRCQCAgAgIiIiIgAAAgIAICICAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Fueguito"
     },
     "anim2": {
         "namespace": "myAnimations",

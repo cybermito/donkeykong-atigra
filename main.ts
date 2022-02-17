@@ -3,10 +3,24 @@ namespace SpriteKind {
     export const barril = SpriteKind.create()
     export const oil = SpriteKind.create()
 }
+sprites.onOverlap(SpriteKind.barril, SpriteKind.oil, function (sprite, otherSprite) {
+    pause(1000)
+    if (contadorFuego >= 11) {
+        fuego = sprites.create(assets.image`Fueguito`, SpriteKind.Player)
+        fuego.setPosition(24, 345)
+        fuego.setVelocity(40, 0)
+        contadorFuego = 0
+    }
+    contadorFuego += 1
+})
+let fuego: Sprite = null
 let barriletes: Sprite[] = []
+let contadorFuego = 0
 let contador = 0
 let contadorAzul = 0
 let azul = false
+contadorFuego = 0
+let aleatorio = 0
 tiles.setTilemap(tilemap`level1`)
 let oil = sprites.create(assets.image`OIL`, SpriteKind.oil)
 oil.setPosition(24, 360)
@@ -30,6 +44,15 @@ assets.animation`BarrileteAlante`,
 true
 )
 scene.cameraFollowSprite(mario)
+/**
+ * Número Aleatorio movimiento Fuego
+ * 
+ * 1 --> Izq - Derch corto
+ * 
+ * 2 --> por toda la plattaforma
+ * 
+ * 3 --> toda la plataforma y si toca las escaleras suba por ellas.
+ */
 game.onUpdate(function () {
     if (mario.tileKindAt(TileDirection.Center, assets.tile`escaleras`) || mario.tileKindAt(TileDirection.Center, assets.tile`viga`)) {
         mario.ay = 0
@@ -46,9 +69,11 @@ game.onUpdate(function () {
     }
 })
 /**
- * La posición del contendedor de Oil ponerla en 20 360.
+ * La posición del contendedor de Oil ponerla en 24 360.
  * 
  * En esta posición se destruyen los barriles.
+ * 
+ * Se generan los fuegos en 35 360
  */
 game.onUpdateInterval(2000, function () {
     if (contadorAzul >= 10) {
@@ -89,14 +114,14 @@ forever(function () {
                 barriletes[contador].vx = -60
                 if (azul) {
                     animation.runImageAnimation(
-                    barriletes[contador],
+                    barrilete,
                     assets.animation`BarrileteAlante-azul`,
                     100,
                     true
                     )
                 } else {
                     animation.runImageAnimation(
-                    barriletes[contador],
+                    barrilete,
                     assets.animation`BarrileteAlante`,
                     100,
                     true
@@ -110,14 +135,14 @@ forever(function () {
                 barriletes[contador].vx = 60
                 if (azul) {
                     animation.runImageAnimation(
-                    barriletes[contador],
+                    barrilete,
                     assets.animation`BarrileteAtras-azul`,
                     100,
                     true
                     )
                 } else {
                     animation.runImageAnimation(
-                    barriletes[contador],
+                    barrilete,
                     assets.animation`BarrileteAtras`,
                     100,
                     true
@@ -127,9 +152,34 @@ forever(function () {
         }
         if (barriletes[contador].x <= 24 && barriletes[contador].y >= 360) {
             barriletes[contador].z = -1
-            barriletes[contador].destroy(effects.fire, 1000)
+            barriletes[contador].destroy(effects.fire, 800)
             barriletes[contador].vx = 0
         }
         contador += -1
     }
+})
+forever(function () {
+    if (fuego) {
+        mario.sayText("Fueegooo!!!!!", 2000, false)
+        aleatorio = randint(1, 3)
+        if (aleatorio == 1) {
+            if (fuego.x >= 100) {
+                fuego.setVelocity(-40, 0)
+            } else if (fuego.x <= 50) {
+                fuego.setVelocity(40, 0)
+            }
+        } else if (aleatorio == 2) {
+            if (fuego.x >= 153) {
+                fuego.setVelocity(-40, 0)
+            } else if (fuego.x <= 10) {
+                fuego.setVelocity(40, 0)
+            }
+        } else if (aleatorio == 3) {
+        	
+        }
+        pause(2000)
+    }
+})
+forever(function () {
+    mario.sayText(aleatorio, 500, false)
 })
