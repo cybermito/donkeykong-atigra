@@ -3,9 +3,18 @@ namespace SpriteKind {
     export const barril = SpriteKind.create()
     export const oil = SpriteKind.create()
 }
+/**
+ * Si el movimiento del fuego es de izq a drcha hacer que se centre con la escalera moviendo unos pasos más hacia la derecha
+ * 
+ * Si el movimiento del fuego es de drcha a izq hacer que este se mueva hacia la izquierda unos pasos.
+ */
+// Cada 10 barriles, sale uno azul, que cuando llegue al final creará un fuego. 
 sprites.onOverlap(SpriteKind.barril, SpriteKind.oil, function (sprite, otherSprite) {
     pause(1000)
     if (contadorFuego >= 11) {
+        if (fuego) {
+            fuego.destroy()
+        }
         fuego = sprites.create(assets.image`Fueguito`, SpriteKind.Player)
         fuego.setPosition(24, 345)
         fuego.setVelocity(40, 0)
@@ -44,15 +53,7 @@ assets.animation`BarrileteAlante`,
 true
 )
 scene.cameraFollowSprite(mario)
-/**
- * Número Aleatorio movimiento Fuego
- * 
- * 1 --> Izq - Derch corto
- * 
- * 2 --> por toda la plattaforma
- * 
- * 3 --> toda la plataforma y si toca las escaleras suba por ellas.
- */
+// Este update lo que hace es comprobar si estamos en una escalera para poder subir o bajar por ella. 
 game.onUpdate(function () {
     if (mario.tileKindAt(TileDirection.Center, assets.tile`escaleras`) || mario.tileKindAt(TileDirection.Center, assets.tile`viga`)) {
         mario.ay = 0
@@ -69,12 +70,14 @@ game.onUpdate(function () {
     }
 })
 /**
- * La posición del contendedor de Oil ponerla en 24 360.
+ * xxxxLa posición del contendedor de Oil ponerla en 24 360.
  * 
  * En esta posición se destruyen los barriles.
  * 
  * Se generan los fuegos en 35 360
  */
+// Este algoritmo crea los barriles cada dos segundos añadiendolos a un array para después poder manejarlos. 
+// Serían como una especie de clones.
 game.onUpdateInterval(2000, function () {
     if (contadorAzul >= 10) {
         contadorAzul = 0
@@ -104,6 +107,8 @@ game.onUpdateInterval(2000, function () {
         azul = false
     }
 })
+// Este algoritmo programa los barriles para que vayan cayendo hasta llegar al bidón de gasolina y ahí se destruyen
+// 
 forever(function () {
     contador = barriletes.length - 1
     while (contador >= 0) {
@@ -165,6 +170,13 @@ forever(function () {
     pause(5000)
 })
 forever(function () {
+    mario.sayText(aleatorio, 500, false)
+})
+// Número Aleatorio movimiento Fuego
+// 1 --> Izq - Derch corto
+// 2 --> por toda la plattaforma
+// 3 --> toda la plataforma y si toca las escaleras suba por ellas.
+forever(function () {
     if (fuego) {
         if (aleatorio == 1) {
             if (fuego.x >= 100) {
@@ -185,11 +197,13 @@ forever(function () {
                 fuego.setVelocity(40, 0)
             }
             if (fuego.tileKindAt(TileDirection.Center, assets.tile`escaleras`)) {
-                fuego.setVelocity(0, -40)
+                if (fuego.vx > 0) {
+                    fuego.setVelocity(40, -40)
+                }
+                if (fuego.vx < 0) {
+                    fuego.setVelocity(-40, -40)
+                }
             }
         }
     }
-})
-forever(function () {
-    mario.sayText(aleatorio, 500, false)
 })
