@@ -65,7 +65,7 @@ namespace myTiles {
 . . . . . . . . . . 
 . . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 
-`, [myTiles.transparency16,myTiles.tile1,myTiles.tile21,myTiles.tile5], TileScale.Sixteen);
+`, [myTiles.transparency16,myTiles.tile1,myTiles.tile21], TileScale.Sixteen);
         }
         return null;
     })

@@ -101,7 +101,7 @@
         "displayName": "viga"
     },
     "tile21": {
-        "data": "hwQQABAAAACIiIiIiIiIiIiIiIiIiIiICAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgAiIiIiIiIiIiIiIiIiIiIiA==",
+        "data": "hwQQABAAAACIiIiIiIiIiIiIiIiIiIiI+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/+P/4//j/iIiIiIiIiIiIiIiIiIiIiA==",
         "mimeType": "image/x-mkcd-f4",
         "tilemapTile": true,
         "displayName": "escaleras"
@@ -113,8 +113,7 @@
         "tileset": [
             "myTiles.transparency16",
             "myTiles.tile1",
-            "myTiles.tile21",
-            "myTiles.tile5"
+            "myTiles.tile21"
         ],
         "displayName": "level1"
     },

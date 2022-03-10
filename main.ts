@@ -2,12 +2,8 @@ namespace SpriteKind {
     export const EscaleraType = SpriteKind.create()
     export const barril = SpriteKind.create()
     export const oil = SpriteKind.create()
+    export const fuego = SpriteKind.create()
 }
-/**
- * Si el movimiento del fuego es de izq a drcha hacer que se centre con la escalera moviendo unos pasos más hacia la derecha
- * 
- * Si el movimiento del fuego es de drcha a izq hacer que este se mueva hacia la izquierda unos pasos.
- */
 // Cada 10 barriles, sale uno azul, que cuando llegue al final creará un fuego. 
 sprites.onOverlap(SpriteKind.barril, SpriteKind.oil, function (sprite, otherSprite) {
     pause(1000)
@@ -15,9 +11,10 @@ sprites.onOverlap(SpriteKind.barril, SpriteKind.oil, function (sprite, otherSpri
         if (fuego) {
             fuego.destroy()
         }
-        fuego = sprites.create(assets.image`Fueguito`, SpriteKind.Player)
+        fuego = sprites.create(assets.image`Fueguito`, SpriteKind.fuego)
         fuego.setPosition(24, 345)
-        fuego.setVelocity(40, 0)
+        fuego.ay = 300
+        fuego.vx = 40
         contadorFuego = 0
     }
     contadorFuego += 1
@@ -70,7 +67,7 @@ game.onUpdate(function () {
     }
 })
 /**
- * xxxxLa posición del contendedor de Oil ponerla en 24 360.
+ * La posición del contendedor de Oil ponerla en 24 360.
  * 
  * En esta posición se destruyen los barriles.
  * 
@@ -169,15 +166,25 @@ forever(function () {
     }
     pause(5000)
 })
-forever(function () {
-    mario.sayText(aleatorio, 500, false)
-})
+/**
+ * Probar si la velocidad en x es cero, hacer que cambie al último movimiento que estuviese haciendo. Izquierda o Derecha.
+ */
 // Número Aleatorio movimiento Fuego
 // 1 --> Izq - Derch corto
 // 2 --> por toda la plattaforma
 // 3 --> toda la plataforma y si toca las escaleras suba por ellas.
 forever(function () {
     if (fuego) {
+        fuego.sayText(fuego.vx)
+        if (fuego.isHittingTile(CollisionDirection.Top)) {
+            if (fuego.vx >= 0) {
+                fuego.vx = 40
+            }
+            if (fuego.vx <= 0) {
+                fuego.vx = -40
+            }
+            fuego.ay = 300
+        }
         if (aleatorio == 1) {
             if (fuego.x >= 100) {
                 fuego.setVelocity(-40, 0)
@@ -185,25 +192,33 @@ forever(function () {
                 fuego.setVelocity(40, 0)
             }
         } else if (aleatorio == 2) {
-            if (fuego.x >= 153) {
+            if (fuego.x >= 150) {
                 fuego.setVelocity(-40, 0)
             } else if (fuego.x <= 10) {
                 fuego.setVelocity(40, 0)
             }
         } else if (aleatorio == 3) {
-            if (fuego.x >= 153) {
+            if (fuego.x >= 150) {
                 fuego.setVelocity(-40, 0)
             } else if (fuego.x <= 10) {
                 fuego.setVelocity(40, 0)
             }
+            // Si el movimiento del fuego es de izq a drcha hacer que se centre con la escalera moviendo unos pasos más hacia la derecha
+            // 
+            // Si el movimiento del fuego es de drcha a izq hacer que este se mueva hacia la izquierda unos pasos.
             if (fuego.tileKindAt(TileDirection.Center, assets.tile`escaleras`)) {
                 if (fuego.vx > 0) {
-                    fuego.setVelocity(40, -40)
+                    fuego.vy += -70
+                    fuego.vx = 40
                 }
                 if (fuego.vx < 0) {
-                    fuego.setVelocity(-40, -40)
+                    fuego.vy += -70
+                    fuego.vx = -40
                 }
             }
         }
     }
+})
+forever(function () {
+    mario.sayText(aleatorio, 500, false)
 })
