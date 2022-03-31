@@ -15,6 +15,7 @@ sprites.onOverlap(SpriteKind.barril, SpriteKind.oil, function (sprite, otherSpri
         fuego.setPosition(24, 345)
         fuego.ay = 300
         fuego.vx = 40
+        direccion = 2
         contadorFuego = 0
     }
     contadorFuego += 1
@@ -23,6 +24,7 @@ let fuego: Sprite = null
 let barriletes: Sprite[] = []
 let contadorFuego = 0
 let direccion = 0
+direccion = 0
 let contador = 0
 let contadorAzul = 0
 let azul = false
@@ -191,10 +193,10 @@ forever(function () {
     if (fuego) {
         fuego.sayText(Math.round(fuego.ay))
         if (fuego.tileKindAt(TileDirection.Bottom, assets.tile`viga`)) {
-            if (fuego.vx <= 0) {
+            if (direccion == 1) {
                 fuego.vx = -40
             }
-            if (fuego.vx >= 0) {
+            if (direccion == 2) {
                 fuego.vx = 40
             }
             fuego.ay = 300
@@ -202,20 +204,26 @@ forever(function () {
         if (aleatorio == 1) {
             if (fuego.x >= 100) {
                 fuego.setVelocity(-40, 0)
+                direccion = 1
             } else if (fuego.x <= 50) {
                 fuego.setVelocity(40, 0)
+                direccion = 2
             }
         } else if (aleatorio == 2) {
             if (fuego.x >= 150) {
                 fuego.setVelocity(-40, 0)
+                direccion = 1
             } else if (fuego.x <= 10) {
                 fuego.setVelocity(40, 0)
+                direccion = 2
             }
         } else if (aleatorio == 3) {
             if (fuego.x >= 150) {
                 fuego.setVelocity(-40, 0)
+                direccion = 1
             } else if (fuego.x <= 10) {
                 fuego.setVelocity(40, 0)
+                direccion = 2
             }
             // Si el movimiento del fuego es de izq a drcha hacer que se centre con la escalera moviendo unos pasos más hacia la derecha
             // 
@@ -229,10 +237,12 @@ forever(function () {
                 if (fuego.vx > 0) {
                     fuego.ay = -300
                     fuego.vx = 10
+                    direccion = 2
                 }
                 if (fuego.vx < 0) {
                     fuego.ay = -300
                     fuego.vx = -10
+                    direccion = 1
                 }
             }
         }
