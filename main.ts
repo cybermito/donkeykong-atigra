@@ -22,6 +22,7 @@ sprites.onOverlap(SpriteKind.barril, SpriteKind.oil, function (sprite, otherSpri
 let fuego: Sprite = null
 let barriletes: Sprite[] = []
 let contadorFuego = 0
+let direccion = 0
 let contador = 0
 let contadorAzul = 0
 let azul = false
@@ -162,12 +163,25 @@ forever(function () {
 })
 forever(function () {
     if (fuego) {
-        aleatorio = randint(1, 3)
+        aleatorio = 3
     }
     pause(5000)
 })
 /**
  * Probar si la velocidad en x es cero, hacer que cambie al último movimiento que estuviese haciendo. Izquierda o Derecha.
+ */
+/**
+ * Fuego: Hacer que cuando suba la escalera y llegue a la parte de arriba comience a moverse de lado a lado, en vez de hacerlo cuando choca con el muro en su parte superior.
+ * 
+ * Podemos guardar en una variable la dirección en la que se está moviendo el fuego para luego volver a decirle que se mueva en esa dirección. 
+ * 
+ * Creo una variable llamada dirección, puede tener 3 valores 0, 1, 2. 
+ * 
+ * 0 = parado
+ * 
+ * 1 = izq
+ * 
+ * 2 = derch
  */
 // Número Aleatorio movimiento Fuego
 // 1 --> Izq - Derch corto
@@ -175,13 +189,13 @@ forever(function () {
 // 3 --> toda la plataforma y si toca las escaleras suba por ellas.
 forever(function () {
     if (fuego) {
-        fuego.sayText(fuego.vx)
-        if (fuego.isHittingTile(CollisionDirection.Top)) {
-            if (fuego.vx >= 0) {
-                fuego.vx = 40
-            }
+        fuego.sayText(Math.round(fuego.ay))
+        if (fuego.tileKindAt(TileDirection.Bottom, assets.tile`viga`)) {
             if (fuego.vx <= 0) {
                 fuego.vx = -40
+            }
+            if (fuego.vx >= 0) {
+                fuego.vx = 40
             }
             fuego.ay = 300
         }
@@ -206,14 +220,19 @@ forever(function () {
             // Si el movimiento del fuego es de izq a drcha hacer que se centre con la escalera moviendo unos pasos más hacia la derecha
             // 
             // Si el movimiento del fuego es de drcha a izq hacer que este se mueva hacia la izquierda unos pasos.
+            // 
+            // Con set fuego ay acel y to -300 y vx velocity y 10 o -10 se consigue que suba la escalera sin problema.
+            // Cuando toca con la parte de arriba el fuego cualquier muro vuelve a caer en gravedad. 
+            // 
+            // 
             if (fuego.tileKindAt(TileDirection.Center, assets.tile`escaleras`)) {
                 if (fuego.vx > 0) {
-                    fuego.vy += -70
-                    fuego.vx = 40
+                    fuego.ay = -300
+                    fuego.vx = 10
                 }
                 if (fuego.vx < 0) {
-                    fuego.vy += -70
-                    fuego.vx = -40
+                    fuego.ay = -300
+                    fuego.vx = -10
                 }
             }
         }
