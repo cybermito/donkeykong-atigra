@@ -4,31 +4,41 @@ namespace SpriteKind {
     export const oil = SpriteKind.create()
     export const fuego = SpriteKind.create()
 }
+/**
+ * He creado el contador fuego para que solo pueda existir 3 fuegos a la vez dentro del juego. 
+ * 
+ * Tengo que programarlos como hice con los barriles para que cada uno tenga sus propiedades. 
+ * 
+ * También hacer que pasado un tiempo desaparezcan los fuegos y no esté de manera cíclica.
+ */
 // Cada 10 barriles, sale uno azul, que cuando llegue al final creará un fuego. 
 sprites.onOverlap(SpriteKind.barril, SpriteKind.oil, function (sprite, otherSprite) {
     pause(1000)
-    if (contadorFuego >= 11) {
+    if (contadorBarrilesFuego >= 11) {
         if (fuego) {
             fuego.destroy()
         }
         fuego = sprites.create(assets.image`Fueguito`, SpriteKind.fuego)
         fuego.setPosition(24, 345)
-        fuego.ay = 300
-        fuego.vx = 40
+        fuegotes.push(fuego)
+        fuegotes[fuegotes.length - 1].ay = 300
+        fuegotes[fuegotes.length - 1].vx = 40
         direccion = 2
-        contadorFuego = 0
+        contadorBarrilesFuego = 0
     }
-    contadorFuego += 1
+    contadorBarrilesFuego += 1
 })
+let fuegotes: Sprite[] = []
 let fuego: Sprite = null
 let barriletes: Sprite[] = []
-let contadorFuego = 0
+let contadorBarrilesFuego = 0
 let direccion = 0
+let contadorFuego = 0
 direccion = 0
 let contador = 0
 let contadorAzul = 0
 let azul = false
-contadorFuego = 0
+contadorBarrilesFuego = 0
 let aleatorio = 0
 tiles.setTilemap(tilemap`level1`)
 let oil = sprites.create(assets.image`OIL`, SpriteKind.oil)
@@ -164,10 +174,13 @@ forever(function () {
     }
 })
 forever(function () {
-    if (fuego) {
-        aleatorio = 3
+    if (fuegotes[fuegotes.length - 1]) {
+        aleatorio = randint(1, 3)
     }
     pause(5000)
+})
+forever(function () {
+    mario.sayText(aleatorio, 500, false)
 })
 /**
  * Probar si la velocidad en x es cero, hacer que cambie al último movimiento que estuviese haciendo. Izquierda o Derecha.
@@ -184,14 +197,16 @@ forever(function () {
  * 1 = izq
  * 
  * 2 = derch
+ * 
+ * Con esta variable consigo el efecto buscado de que el fuego al subir por las escaleras continúe en la dirección que iba.
  */
 // Número Aleatorio movimiento Fuego
 // 1 --> Izq - Derch corto
 // 2 --> por toda la plattaforma
 // 3 --> toda la plataforma y si toca las escaleras suba por ellas.
 forever(function () {
-    if (fuego) {
-        fuego.sayText(Math.round(fuego.ay))
+    contadorFuego = fuegotes.length - 1
+    if (fuegotes[fuegotes.length - 1]) {
         if (fuego.tileKindAt(TileDirection.Bottom, assets.tile`viga`)) {
             if (direccion == 1) {
                 fuego.vx = -40
@@ -247,7 +262,4 @@ forever(function () {
             }
         }
     }
-})
-forever(function () {
-    mario.sayText(aleatorio, 500, false)
 })
